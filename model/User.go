@@ -10,7 +10,9 @@ type User struct {
 }
 
 //todo 查询用户是否存在
+func CheckUser(){
 
+}
 
 //todo 新增用户
 
