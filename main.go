@@ -1,4 +1,4 @@
-package goblog
+package main
 
 import (
 	"goblog/model"
