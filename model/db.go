@@ -39,7 +39,7 @@ func InitDatabase(){
 	}
 
 	// 自动迁移
-	//_ = db.AutoMigrate(&User{}, &Article{}, &Category{})
+	_ = db.AutoMigrate(&User{}, &Article{}, &Category{})
 
 	sqlDb, _ := db.DB()
 	// 设置连接池最大的连接数量
