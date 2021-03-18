@@ -1,6 +1,9 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"goblog/utils/errmsg"
+	"gorm.io/gorm"
+)
 
 type Category struct {
 	gorm.Model
@@ -8,14 +11,70 @@ type Category struct {
 	Name string `gorm:"type:varchar(20);not null" json:"name"`
 }
 
-//todo 查询分类是否存在
+// 查询分类是否存在
+func CheckCategory(name string)(code int){
+	var cate Category
+	db.Select("id").Where("name = ?", name).First(&cate)
+	if cate.ID > 0{
+		return errmsg.ERROR_CATENAME_USED
+	}
+	return errmsg.SUCCESS
+}
 
-//todo	新增分类
+//	新增分类
+func CreateCategory(data *Category)int{
+	err := db.Create(&data).Error
+	if err != nil{
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
 
-//todo	查询单个分类信息
+//	查询单个分类信息
+func GetCateInfo(id int)(Category, int){
+	var cate Category
+	db.Where("id = ?", id).First(&cate)
+	return cate, errmsg.SUCCESS
+}
+//	查询分类列表
+func GetCateList(pageSize, pageNum int)([]Category, int64){
+	var cate []Category
+	var total int64
+	err = db.Find(&cate).Limit(pageSize).Offset((pageNum-1)*pageSize).Error
+	db.Model(&cate).Count(&total)
+	return cate, total
+}
+//	编辑分类信息
+func EditCate(id int, data *Category) int {
+	var cate Category
+	var maps = make(map[string]interface{})
+	maps["name"] = data.Name
 
-//todo	查询分类列表
+	err = db.Model(&cate).Where("id = ?", id).Updates(maps).Error
+	if err != nil{
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
+//	删除分类
+func DeleteCate(id int)int{
+	var cate Category
+	err = db.Where("id = ?", id).Delete(&cate).Error
+	if err != nil{
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
 
-//todo	编辑分类信息
 
-//todo	删除分类
+
+
+
+
+
+
+
+
+
+
+
