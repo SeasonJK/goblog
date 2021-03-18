@@ -40,8 +40,8 @@ func GetCateInfo(c *gin.Context) {
 }
 //	查询分类列表
 func GetCateList(c *gin.Context){
-	pageSize, _ := strconv.Atoi(c.Query("pageSize"))
-	pageNum, _ := strconv.Atoi(c.Query("pageNum"))
+	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
+	pageNum, _ := strconv.Atoi(c.Query("pagenum"))
 
 	switch {
 	case pageSize >= 100:
