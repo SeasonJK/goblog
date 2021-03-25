@@ -126,6 +126,55 @@ func (u *User)BeforeUpdate(_ *gorm.DB)(err error){
 	return nil
 }
 
-//todo 后台登录验证
+// 后台登录验证
+func CheckLogin(username, password string)(User, int){
+	var user User
+	var PasswordErr error
 
-//todo 前台登录
+	db.Where("username = ?", username).First(&user)
+
+	PasswordErr = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+
+	if user.ID == 0{
+		return user, errmsg.ERROR_USER_NOT_EXIST
+	}
+	if PasswordErr != nil{
+		return user, errmsg.ERROR_PASSWORD_WRONG
+	}
+	if user.Role == 1{
+		return user, errmsg.ERROR_USER_NO_RIGHT
+	}
+	return user, errmsg.SUCCESS
+}
+
+// 前台登录
+func CheckLoginFront(username, password string)(User, int){
+	var user User
+	var PasswordErr error
+
+	db.Where("username = ?", username).First(&user)
+
+	PasswordErr = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+
+	if user.ID == 0{
+		return user, errmsg.ERROR_USER_NOT_EXIST
+	}
+	if PasswordErr != nil{
+		return user, errmsg.ERROR_PASSWORD_WRONG
+	}
+	return user, errmsg.SUCCESS
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

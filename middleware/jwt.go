@@ -21,7 +21,7 @@ func NewJwt() *JWT {
 }
 
 type MyClaims struct {
-	username string `json:"username"`
+	Username string `json:"username"`
 	jwt.StandardClaims
 }
 
