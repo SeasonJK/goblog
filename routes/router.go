@@ -6,6 +6,7 @@ import (
 	"goblog/utils"
 )
 
+
 func InitRouter(){
 	gin.SetMode(utils.AppMode)
 	r := gin.Default()
