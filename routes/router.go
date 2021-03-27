@@ -3,13 +3,18 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	v1 "goblog/api/v1"
+	"goblog/middleware"
 	"goblog/utils"
 )
 
 
 func InitRouter(){
 	gin.SetMode(utils.AppMode)
-	r := gin.Default()
+
+	r := gin.New()
+	r.Use(middleware.Log())
+	r.Use(gin.Recovery())
+	r.Use(middleware.Cors())
 
 	auth := r.Group("api/v1")
 	{
