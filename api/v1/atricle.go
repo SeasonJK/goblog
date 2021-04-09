@@ -79,7 +79,7 @@ func GetArtList(c *gin.Context){
 	}
 
 	if len(title) == 0{
-		data, code, total := model.GetArtList()
+		data, code, total := model.GetArtList(title, pageSize, pageNum)
 		c.JSON(http.StatusOK, gin.H{
 			"status":		code,
 			"data":			data,
